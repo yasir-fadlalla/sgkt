@@ -53,12 +53,12 @@ export const metadata: Metadata = {
 
 import { GoogleTranslate } from "@/components/google-translate";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const googtrans = cookieStore.get('googtrans')?.value;
   const isLtr = googtrans?.includes('/en') || googtrans?.includes('/tr');
   const dir = isLtr ? 'ltr' : 'rtl';

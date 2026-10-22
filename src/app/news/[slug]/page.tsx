@@ -11,8 +11,9 @@ export async function generateStaticParams() {
   return [];
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const slug = params?.slug;
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const slug = resolvedParams?.slug;
   if (!slug) return {};
 
   const decodedSlug = decodeURIComponent(slug);
@@ -44,8 +45,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function NewsArticlePage({ params }: { params: { slug: string } }) {
-  const slug = params?.slug;
+export default async function NewsArticlePage({ params }: { params: Promise<{ slug: string }> }): Promise<JSX.Element> {
+  const resolvedParams = await params;
+  const slug = resolvedParams?.slug;
   if (!slug) return notFound();
 
   const decodedSlug = decodeURIComponent(slug);
